@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { VirkopediaArticle } from '../../components/virkopedia/virkopedia-article'
 import { VirkopediaTab } from '../../components/virkopedia/virkopedia-tab'
-import { API_ENDPOINT } from '../../constants/constants'
 import { Layout } from '../../components/layout/layout'
+import { getVirkopediaArticles } from '../../sanity/sanity-utils'
 
 const Virkopedia = ({ articles }) => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(0)
@@ -34,13 +34,8 @@ const Virkopedia = ({ articles }) => {
   )
 }
 
-// Import Data
-
-export const getStaticProps = async () => {
-  const res = await fetch(API_ENDPOINT)
-  const data = await res.json()
-
-  const articles = data.virkopediaData
+export const getStaticProps = async ({ previewData }) => {
+  const articles = await getVirkopediaArticles()
 
   return {
     props: {

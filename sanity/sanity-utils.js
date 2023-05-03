@@ -9,6 +9,8 @@ export function resolveHref(documentType, slug) {
       return slug ? `/${slug}` : undefined
     case 'project':
       return slug ? `/projects/${slug}` : undefined
+    case 'companies':
+      return slug ? `/companies/${slug}` : undefined
     default:
       console.warn('Invalid document type:', documentType)
       return undefined
@@ -57,18 +59,69 @@ export async function getPage(slug) {
   )
 }
 
+export async function getPlaceholders() {
+  return createClient(clientConfig).fetch(
+    groq`*[_type == "placeholders"]{
+      _id,
+      _createdAt,
+      numberOfColumns,
+      titleColumnOne,
+      contentColumnOne,
+      titleColumnTwo,
+      contentColumnTwo,
+      titleColumnThree,
+      contentColumnThree,
+    }`
+  )
+}
+
+export async function getVirkopediaArticles() {
+  return createClient(clientConfig).fetch(
+    groq`*[_type == "virkopodia"]{
+      _id,
+      _createdAt,
+      title,
+      content
+    }`
+  )
+}
+
+export async function getCompanies() {
+  return createClient(clientConfig).fetch(
+    groq`*[_type == "companies"]{
+      _id,
+      _createdAt,
+      uid,
+      cvrNumber,
+      companyName,
+      address,
+      postNoCity,
+      companyType,
+      status
+    }`
+  )
+}
+
+export async function getCompaniesPaths() {
+  return createClient(clientConfig).fetch(
+    groq`
+      *[_type == "companies" && slug.current != null].slug.current
+    `
+  )
+}
+
 export async function getPagesPaths() {
   return createClient(clientConfig).fetch(
     groq`
-  *[_type == "page" && slug.current != null].slug.current
-`
+      *[_type == "page" && slug.current != null].slug.current
+    `
   )
 }
 
 export async function getProjectsPaths() {
   return createClient(clientConfig).fetch(
     groq`
-  *[_type == "project" && slug.current != null].slug.current
-`
+      *[_type == "project" && slug.current != null].slug.current
+    `
   )
 }

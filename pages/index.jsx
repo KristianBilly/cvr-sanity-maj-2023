@@ -1,11 +1,12 @@
 import { Layout } from '../components/layout/layout'
 import { PlaceholderRow } from '../components/placeholder/placeholder-row'
-import { API_ENDPOINT } from '../constants/constants'
+import { getPlaceholders } from '../sanity/sanity-utils'
 
-const Index = ({ landingPageRows }) => {
+const Index = ({ placeholders }) => {
   return (
     <Layout>
-      {landingPageRows.map((row, index) => {
+      {placeholders.map((row, index) => {
+        console.log(row.contentColumnOne + index)
         return (
           <PlaceholderRow
             key={row.contentColumnOne + index}
@@ -20,13 +21,11 @@ const Index = ({ landingPageRows }) => {
 // Import Data
 
 export const getStaticProps = async () => {
-  const res = await fetch(API_ENDPOINT)
-  const data = await res.json()
-  const landingPageRows = data.landingPageData
+  const placeholders = await getPlaceholders()
 
   return {
     props: {
-      landingPageRows,
+      placeholders,
     },
   }
 }

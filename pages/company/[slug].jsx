@@ -3,6 +3,7 @@ import { CompanyTable } from '../../components/company/company-table'
 import Link from 'next/link'
 import { API_ENDPOINT, SEARCH_PATH } from '../../constants/constants'
 import { Layout } from '../../components/layout/layout'
+import { getCompanies, getCompaniesPaths } from '../../sanity/sanity-utils'
 
 const Company = ({ selectedCompany }) => {
   const formattedCompany = getConvertedCompanyData(selectedCompany)
@@ -25,13 +26,9 @@ const Company = ({ selectedCompany }) => {
   )
 }
 
-// Import Data
-
-export const getStaticProps = async ({ params }) => {
-  const res = await fetch(API_ENDPOINT)
-  const data = await res.json()
-
-  const selectedCompany = data?.companiesData[params.uid]
+export const getStaticProps = async ({ previewData, params }) => {
+  const companies = await getCompanies()
+  const selectedCompany = companies[params.slug]
 
   return {
     props: {
@@ -41,17 +38,43 @@ export const getStaticProps = async ({ params }) => {
 }
 
 export async function getStaticPaths() {
-  const res = await fetch(API_ENDPOINT)
-  const data = await res.json()
-
-  const paths = data.companiesData.map(({ uid }) => ({
-    params: { uid },
-  }))
+  const pagePaths = await getCompaniesPaths()
+  const mappedPaths =
+    pagePaths?.map((slug) => resolveHref('companies', slug)) || []
 
   return {
-    paths: paths,
+    paths: mappedPaths,
     fallback: false,
   }
 }
+
+// Import Data
+
+// export const getStaticProps = async ({ params }) => {
+//   const res = await fetch(API_ENDPOINT)
+//   const data = await res.json()
+
+//   const selectedCompany = data?.companiesData[params.uid]
+
+//   return {
+//     props: {
+//       selectedCompany,
+//     },
+//   }
+// }
+
+// export async function getStaticPaths() {
+//   const res = await fetch(API_ENDPOINT)
+//   const data = await res.json()
+
+//   const paths = data.companiesData.map(({ uid }) => ({
+//     params: { uid },
+//   }))
+
+//   return {
+//     paths: paths,
+//     fallback: false,
+//   }
+// }
 
 export default Company

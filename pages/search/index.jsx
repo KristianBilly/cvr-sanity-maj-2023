@@ -1,11 +1,13 @@
 import { Layout } from '../../components/layout/layout'
 import { TextInput } from '../../components/other/text-input'
 import { SearchResults } from '../../components/search/search-results'
-import { API_ENDPOINT } from '../../constants/constants'
 import { useSiteContext } from '../../context/site-context'
+import { getCompanies } from '../../sanity/sanity-utils'
 
 const SearchWrapper = ({ allCompanies }) => {
   const { searchField, setSearchField } = useSiteContext()
+
+  console.log(allCompanies)
 
   return (
     <Layout>
@@ -30,9 +32,7 @@ const SearchWrapper = ({ allCompanies }) => {
 // Import Data
 
 export const getStaticProps = async () => {
-  const res = await fetch(API_ENDPOINT)
-  const data = await res.json()
-  const allCompanies = data.companiesData
+  const allCompanies = await getCompanies()
 
   return {
     props: {
