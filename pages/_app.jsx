@@ -1,12 +1,24 @@
-import '../styles/globals.css'
 import '../styles/main.scss'
-import { Layout } from '../components/layout/layout'
 import { SiteContextProvider } from '../context/site-context'
+import { useRouter } from 'next/router'
+import { Layout } from '../components/layout/layout'
 
 export default function App({ Component, pageProps }) {
+  const router = useRouter()
+  const isStudieAdminRoute = router.route.includes('admin')
+
+  if (isStudieAdminRoute)
+    return (
+      <SiteContextProvider>
+        <Component {...pageProps} />
+      </SiteContextProvider>
+    )
+
   return (
     <SiteContextProvider>
-      <Component {...pageProps} />
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </SiteContextProvider>
   )
 }
