@@ -43,4 +43,18 @@
       color: $hover-color;
     }
   }
+
+  .virkopedia-blue-button {
+    background: blue;
+  }
+
+  .virkopedia-article {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .virkopedia-picture-top {
+    order: -1;
+  }
 }

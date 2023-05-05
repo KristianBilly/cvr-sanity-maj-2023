@@ -5,7 +5,7 @@ import { getVirkopediaArticles } from '../../sanity/sanity-utils'
 
 const Virkopedia = ({ articles }) => {
   const [activeButtonIndex, setActiveButtonIndex] = useState(0)
-  const { content, title } = articles[activeButtonIndex]
+  const selectedArticle = articles[activeButtonIndex]
 
   return (
     <div className="virkopedia">
@@ -22,10 +22,7 @@ const Virkopedia = ({ articles }) => {
             />
           ))}
         </div>
-        <VirkopediaArticle
-          title={title}
-          content={content}
-        />
+        <VirkopediaArticle selectedArticle={selectedArticle} />
       </div>
     </div>
   )

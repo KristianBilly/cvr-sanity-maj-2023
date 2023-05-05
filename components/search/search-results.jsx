@@ -26,11 +26,10 @@ export const SearchResults = ({ allCompanies }) => {
       <div>
         {companies.map((company, index) => {
           const convertedData = getConvertedSearchData({ ...company })
-
           return (
             <SearchCompany
               key={index}
-              index={index}
+              slug={company.slug}
               convertedData={convertedData}
             />
           )

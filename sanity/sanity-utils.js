@@ -1,21 +1,5 @@
 import { createClient, groq } from 'next-sanity'
-import clientConfig from './config/client-config'
-
-export function resolveHref(documentType, slug) {
-  switch (documentType) {
-    case 'home':
-      return '/'
-    case 'page':
-      return slug ? `/${slug}` : undefined
-    case 'project':
-      return slug ? `/projects/${slug}` : undefined
-    case 'companies':
-      return slug ? `/companies/${slug}` : undefined
-    default:
-      console.warn('Invalid document type:', documentType)
-      return undefined
-  }
-}
+import { clientConfig } from './config/client-config'
 
 export async function getPlaceholders() {
   return createClient(clientConfig).fetch(
@@ -35,11 +19,17 @@ export async function getPlaceholders() {
 
 export async function getVirkopediaArticles() {
   return createClient(clientConfig).fetch(
-    groq`*[_type == "virkopodia"]{
+    groq`*[_type == "virkopodia"] {
       _id,
       _createdAt,
       title,
-      content
+      content,
+      richText,
+      "imageUrl": image.asset->url,
+      image,
+      button,
+      imagePositionTop,
+      lastEdited
     }`
   )
 }
