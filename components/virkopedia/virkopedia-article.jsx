@@ -1,6 +1,5 @@
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
-import cc from 'classcat'
 
 export const VirkopediaArticle = ({ selectedArticle }) => {
   const {
@@ -16,7 +15,6 @@ export const VirkopediaArticle = ({ selectedArticle }) => {
   const shouldRenderSignUpButton = button === 'sign-up'
   const shouldRenderBlueButton = button === 'blue'
 
-  console.log(selectedArticle)
   return (
     <article className="virkopedia-article">
       {title && <h3>{title}</h3>}
@@ -26,14 +24,18 @@ export const VirkopediaArticle = ({ selectedArticle }) => {
         <Image
           src={imageUrl}
           alt={image?.alt}
-          width={50}
-          height={50}
-          className={cc({ 'virkopedia-picture-top': imagePositionTop })}
+          width={150}
+          height={100}
+          className={imagePositionTop ? 'virkopedia-image-top' : null}
         />
       )}
       <div className="">
         {shouldRenderSignUpButton && (
-          <button onClick={() => alert('You signed up')}>{button}</button>
+          <button
+            className="virkopedia-button"
+            onClick={() => alert('You signed up')}>
+            {button}
+          </button>
         )}
         {shouldRenderBlueButton && (
           <button

@@ -22,6 +22,7 @@ const Virkopedia = ({ articles }) => {
             />
           ))}
         </div>
+
         <VirkopediaArticle selectedArticle={selectedArticle} />
       </div>
     </div>

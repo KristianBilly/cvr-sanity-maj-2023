@@ -44,8 +44,14 @@
     }
   }
 
+  .virkopedia-button {
+    font-size: 20px;
+    padding: 5px;
+  }
+
   .virkopedia-blue-button {
     background: blue;
+    color: white;
   }
 
   .virkopedia-article {
@@ -54,7 +60,7 @@
     gap: 10px;
   }
 
-  .virkopedia-picture-top {
+  .virkopedia-image-top {
     order: -1;
   }
 }
